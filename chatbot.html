@@ -14,6 +14,7 @@
     <script src="https://unpkg.com/supersimpledev@8.6.4/babel.js
     "></script>
     <script type="text/babel">
+
       function ChatInput() {
         return (
           <>
@@ -28,7 +29,8 @@
 
       // Props are inputs to a React component. Destructuring assignment is used here.
       function ChatMessage({message, sender}) {
-      const isBot = sender === "bot";
+      
+        const isBot = sender === "bot";
 
         return (
           <div style={{padding: "10px"}}>
@@ -41,21 +43,47 @@
         );
       }
 
+      /*Component are piece of the website
+      Chatbot project has 2 component, ChatInput and ChatMessage
+      App component is the main component that uses the other 2 components
+      props are used to pass data to components
+      Destructuring assignment is used to extract props in ChatMessage component
+      Guard operators are used to conditionally render elements based on the sender prop
+      Const isBot is used to check if the sender is bot or user
+*/
 
-      function App() {
+
+      function ChatMessages(){
+      const chatMessages = [
+            { message: "Hello chatbox!", sender: "user" },
+            { message: "Hello! How can I help you today?", sender: "bot" },
+            { message: "Can you tell me today's date?", sender: "user" },
+            { message: `Today is ${new Date().toDateString()}`, sender: "bot" }
+        ];
+
+
+        return (
+          <>{
+            chatMessages.map((chat, index) => {
+                return (
+                  <ChatMessage 
+                    key={index} 
+                    message={chat.message} 
+                    sender={chat.sender} />
+                );
+            })}
+          </>
+        );
+      }
+
+
+
+      function App() {     
+
         return (
           <>
             <ChatInput /> 
-            <ChatMessage 
-              message="Hello chatbox!" 
-              sender="user"/>
-            <ChatMessage 
-              message="Hello! How can I help you today?" sender="bot"/>
-            <ChatMessage 
-              message="Can you tell me today's date?" sender="user"/>
-            <ChatMessage 
-              message={`Today is ${new Date().toDateString()}`} 
-              sender="bot"/>
+            <ChatMessages />
           </>
         );
       }
