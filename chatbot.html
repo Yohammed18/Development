@@ -31,7 +31,7 @@
       const isBot = sender === "bot";
 
         return (
-          <div>
+          <div style={{padding: "10px"}}>
             {isBot && 
               (<img src="bot.png" height="50" width="50" />)}
             {message}
@@ -42,26 +42,27 @@
       }
 
 
-
-      const app = (
-        <>
-          <ChatInput /> 
-          <ChatMessage 
-            message="Hello chatbox!" 
-            sender="user"/>
-          <ChatMessage 
-            message="Hello! How can I help you today?" sender="bot"/>
-          <ChatMessage 
-            message="Can you tell me today's date?" sender="user"/>
-          <ChatMessage 
-            message={`Today is ${new Date().toDateString()}`} 
-            sender="bot"/>
-        </>
-      );
+      function App() {
+        return (
+          <>
+            <ChatInput /> 
+            <ChatMessage 
+              message="Hello chatbox!" 
+              sender="user"/>
+            <ChatMessage 
+              message="Hello! How can I help you today?" sender="bot"/>
+            <ChatMessage 
+              message="Can you tell me today's date?" sender="user"/>
+            <ChatMessage 
+              message={`Today is ${new Date().toDateString()}`} 
+              sender="bot"/>
+          </>
+        );
+      }
 
       const container = document.querySelector('.js-container');
 
-      ReactDOM.createRoot(container).render(app);
+      ReactDOM.createRoot(container).render(<App />);
       /*
       Fragments (<>)let you group a list 
       of children without adding extra
