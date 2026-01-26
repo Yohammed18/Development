@@ -17,7 +17,10 @@
       function ChatInput() {
         return (
           <>
-            <input  id="chat-input" placeholder="Send a message to chatbox" size="30" />
+            <input  
+              id="chat-input" 
+              placeholder="Send a message to chatbox" 
+              size="30" />
             <button>Send</button>
           </>
         );
@@ -27,12 +30,13 @@
       function ChatMessage({message, sender}) {
       const isBot = sender === "bot";
 
-
         return (
           <div>
-            {isBot && <img src="bot.png" height="50" width="50" />}
+            {isBot && 
+              (<img src="bot.png" height="50" width="50" />)}
             {message}
-            {!isBot && <img src="user.png" height="50" width="50" />}
+            {!isBot && 
+              (<img src="user.png" height="50" width="50" />)}
           </div>
         );
       }
@@ -42,10 +46,16 @@
       const app = (
         <>
           <ChatInput /> 
-          <ChatMessage message="Hello chatbox!" sender="user"/>
-          <ChatMessage message="Hello! How can I help you today?" sender="bot"/>
-          <ChatMessage message="Can you tell me today's date?" sender="user"/>
-          <ChatMessage message={`Today is ${new Date().toDateString()}`} sender="bot"/>
+          <ChatMessage 
+            message="Hello chatbox!" 
+            sender="user"/>
+          <ChatMessage 
+            message="Hello! How can I help you today?" sender="bot"/>
+          <ChatMessage 
+            message="Can you tell me today's date?" sender="user"/>
+          <ChatMessage 
+            message={`Today is ${new Date().toDateString()}`} 
+            sender="bot"/>
         </>
       );
 
