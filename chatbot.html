@@ -11,18 +11,58 @@
     <script src="https://unpkg.com/supersimpledev@8.6.4/react.js"></script>
     <script src="https://unpkg.com/supersimpledev@8.6.4/react-dom.js"></script>
 
+    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
+
     <script src="https://unpkg.com/supersimpledev@8.6.4/babel.js
     "></script>
     <script type="text/babel">
 
-      function ChatInput() {
+      function ChatInput({chatMessages, setChatMessages}) {
+
+        const [inputText, setInputText] = React.useState("")
+
+
+        function saveInputText(e){
+          setInputText(e.target.value);          
+        }
+
+
+        function sendMessage(){
+
+          const newChatMessages = [
+              ...chatMessages,
+              {
+                message: inputText,
+                sender: "user",
+                id: crypto.randomUUID()
+              }];
+          setChatMessages(newChatMessages);
+
+          const response = Chatbot.getResponse(inputText);
+          
+          setChatMessages([
+              ...newChatMessages,
+              {
+                message: response,
+                sender: "bot",
+                id: crypto.randomUUID()
+              }]
+            );
+              
+          // Clear input field after sending message
+          setInputText("");
+        }
+
         return (
           <>
             <input  
               id="chat-input" 
               placeholder="Send a message to chatbox" 
-              size="30" />
-            <button>Send</button>
+              size="30"
+              onChange={saveInputText} 
+              value={inputText}
+            />
+            <button onClick={sendMessage}>Send</button>
           </>
         );
       }
@@ -53,37 +93,45 @@
 */
 
 
-      function ChatMessages(){
-      const chatMessages = [
-            { message: "Hello chatbox!", sender: "user" },
-            { message: "Hello! How can I help you today?", sender: "bot" },
-            { message: "Can you tell me today's date?", sender: "user" },
-            { message: `Today is ${new Date().toDateString()}`, sender: "bot" }
-        ];
-
-
-        return (
-          <>{
-            chatMessages.map((chat, index) => {
-                return (
-                  <ChatMessage 
-                    key={index} 
-                    message={chat.message} 
-                    sender={chat.sender} />
-                );
-            })}
-          </>
-        );
+      function ChatMessages({chatMessages, setChatMessages}){
+          return (
+            <>
+            {/* Event handling
+            <button onClick={handleSendMessage}>Send Message</button>
+            */}
+            {
+              chatMessages.map((chat, index) => {
+                  return (
+                    <ChatMessage 
+                      key={index} 
+                      message={chat.message} 
+                      sender={chat.sender} />
+                  );
+              })}
+            </>
+          );
       }
 
 
 
       function App() {     
+        // array destructuring assignment to create state variable chatMessages and function setChatMessages to update it
+        const [chatMessages, setChatMessages] = React.useState([]);
+
 
         return (
           <>
-            <ChatInput /> 
-            <ChatMessages />
+            <ChatInput 
+              setChatMessages={setChatMessages} 
+              chatMessages={chatMessages}
+            /> 
+            <ChatMessages 
+              chatMessages={chatMessages} 
+              setChatMessages={setChatMessages} 
+            />
+            <div>
+              <button onClick={() => setChatMessages([])}>Reset</button>
+            </div>
           </>
         );
       }
@@ -95,6 +143,16 @@
       Fragments (<>)let you group a list 
       of children without adding extra
       nodes to the DOM.
+      */
+
+      /* 
+      Save data using arrays and objects
+      Generate the html using map function and key prop
+      application is interactive using event handling like onClick and onChange
+      State management using useState hook - data that changes over time and affects rendering
+      update functions to modify state and trigger re-rendering by updating the state and passing new data as props
+      array destructuring assignment to extract state variable and update function from useState hook
+      lift state up to common ancestor component (App) to share state between sibling components (ChatInput and ChatMessages)
       */
     </script>
   </body>
