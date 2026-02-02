@@ -52,6 +52,7 @@
         max-width: 600px;
         margin: auto;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        height: 80 vh;
       }
 
 
@@ -77,6 +78,21 @@
         word-wrap: break-word;
         margin-left: 10px;
         margin-bottom: 20px;
+      }
+
+      .message-avatar{
+        width: 45px;      
+      }
+
+
+      .chat-messages-container {
+        height: 60vh;
+        overflow-y: auto;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 10px;
+        background-color: #fafafa;
       }
     </style>
   </head>
@@ -160,12 +176,12 @@
             {message &&(
               <div className={`chat-message ${isBot ? 'bot-message' : 'user-message'}`}>
             {isBot && 
-              (<img src="bot.png" height="50" width="50" />)}
+              (<img src="bot.png" height="50" width="50" className="message-avatar"/>)}
             <div className="message-text">
               {message}
             </div>
             {!isBot && 
-              (<img src="user.png" height="50" width="50" />)}
+              (<img src="user.png" height="50" width="50" className="message-avatar"/>)}
           </div>
             )}
           </>
@@ -186,7 +202,7 @@
       function ChatMessages({chatMessages, setChatMessages}){
 
           return (
-            <>
+            <div className="chat-messages-container">
             {/* Event handling
             <button onClick={handleSendMessage}>Send Message</button>
             */}
@@ -199,7 +215,7 @@
                       sender={chat.sender} />
                   );
               })}
-            </>
+            </div>
           );
       }
 
@@ -212,13 +228,14 @@
 
         return (
           <div className="app-container">
-            <ChatInput 
-              setChatMessages={setChatMessages} 
-              chatMessages={chatMessages}
-            /> 
+             
             <ChatMessages 
               chatMessages={chatMessages} 
               setChatMessages={setChatMessages} 
+            />
+            <ChatInput 
+              setChatMessages={setChatMessages} 
+              chatMessages={chatMessages}
             />
             <>
               <button className="reset-button" onClick={() => setChatMessages([])}>Reset</button>
