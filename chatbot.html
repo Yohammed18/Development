@@ -93,6 +93,8 @@
         padding: 10px;
         border-radius: 10px;
         background-color: #fafafa;
+        overflow: scroll;
+        scrollbar-width: thin;
       }
     </style>
   </head>
@@ -201,8 +203,23 @@
 
       function ChatMessages({chatMessages, setChatMessages}){
 
+        const containerRef = React.useRef(null); // to create a reference to a DOM element or a value that persists across renders
+
+
+
+        React.useEffect(() => {
+          const containerElement = containerRef.current
+
+          if(containerElement){
+            containerElement.scrollTop = containerElement.scrollHeight;
+          }
+
+        },[chatMessages]);//dependency array with chatMessages, so it runs after every render when chatMessages changes
+      
+
           return (
-            <div className="chat-messages-container">
+            <div className="chat-messages-container"
+              ref={containerRef}>
             {/* Event handling
             <button onClick={handleSendMessage}>Send Message</button>
             */}
