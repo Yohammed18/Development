@@ -1,9 +1,84 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Chat Bot Basics</title>
+    <title>Chat Bot </title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+
+      body {
+        font-family:  'Times New Roman', Times, serif;
+        margin: 20px;
+        font-size: 15px;
+      }
+
+      input#chat-input {
+        padding: 12px 20px;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        cursor: pointer;
+        flex-grow: 1; /** Make input take available space **/
+      }
+
+      .send-button {
+        background-color: rgb(50, 241, 50);
+        color: white;
+        padding: 12px 20px;
+        margin-left: 10px;
+        margin-right: 2.5px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      .reset-button {
+        background-color: red;
+        color: white;
+        padding: 12px 20px;
+        border: none; 
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      .chat-input-container {
+        margin-bottom: 20px;
+        display: flex;
+      }
+
+      .app-container {
+        border-radius: 10px;
+        padding: 20px;
+        max-width: 600px;
+        margin: auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+
+      .chat-message{
+        display: flex;
+        justify-content: start;
+        padding: 5px;
+        align-items: start;
+      }
+
+      .user-message {
+        display: flex;
+        justify-content: end;
+        align-items: start;
+      }
+
+      .message-text {
+        background-color: #f1f1f1;
+        border-radius: 10px;
+        padding: 15px 20px;
+        margin-right: 10px;
+        max-width: 80%;
+        word-wrap: break-word;
+        margin-left: 10px;
+        margin-bottom: 20px;
+      }
+    </style>
   </head>
   <body>
     <div class="js-container"></div>
@@ -29,6 +104,9 @@
 
         function sendMessage(){
 
+          if(!inputText.trim()){
+            return; // Do not send empty messages
+          }
           const newChatMessages = [
               ...chatMessages,
               {
@@ -54,7 +132,7 @@
         }
 
         return (
-          <>
+          <div className="chat-input-container">
             <input  
               id="chat-input" 
               placeholder="Send a message to chatbox" 
@@ -62,8 +140,13 @@
               onChange={saveInputText} 
               value={inputText}
             />
-            <button onClick={sendMessage}>Send</button>
-          </>
+            <button 
+              onClick={sendMessage}
+              className="send-button"
+            >
+              Send
+            </button>
+          </div>
         );
       }
 
@@ -73,13 +156,20 @@
         const isBot = sender === "bot";
 
         return (
-          <div style={{padding: "10px"}}>
+          <>
+            {message &&(
+              <div className={`chat-message ${isBot ? 'bot-message' : 'user-message'}`}>
             {isBot && 
               (<img src="bot.png" height="50" width="50" />)}
-            {message}
+            <div className="message-text">
+              {message}
+            </div>
             {!isBot && 
               (<img src="user.png" height="50" width="50" />)}
           </div>
+            )}
+          </>
+          
         );
       }
 
@@ -94,6 +184,7 @@
 
 
       function ChatMessages({chatMessages, setChatMessages}){
+
           return (
             <>
             {/* Event handling
@@ -120,7 +211,7 @@
 
 
         return (
-          <>
+          <div className="app-container">
             <ChatInput 
               setChatMessages={setChatMessages} 
               chatMessages={chatMessages}
@@ -129,10 +220,10 @@
               chatMessages={chatMessages} 
               setChatMessages={setChatMessages} 
             />
-            <div>
-              <button onClick={() => setChatMessages([])}>Reset</button>
-            </div>
-          </>
+            <>
+              <button className="reset-button" onClick={() => setChatMessages([])}>Reset</button>
+            </>
+          </div>
         );
       }
 
